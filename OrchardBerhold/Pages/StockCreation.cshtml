@@ -1,0 +1,24 @@
+﻿@page
+@model OrchardBerhold.Pages.StockCreationModel
+@{
+    int index = 0;
+}
+
+<h2>Crear Stock</h2>
+
+<form action="StockCreation" method="post">
+    @Html.AntiForgeryToken()
+    <dl>
+        @foreach (var item in Model.Shares)
+            {
+
+                <input type="hidden" name="Shared[@index].Name" value="@item.Name" />
+                <input type="hidden" name="Shared[@index].Price" value="@item.Price" />
+                <input type="hidden" name="Shared[@index].RegistrationDate" value="@item.RegistrationDate" />
+                <dt>@($"{item.Name} - {item.Price.ToString("C2")}")</dt>
+                <dd>@item.RegistrationDate.ToString("dd/MM/yyyy")</dd>
+                index++;
+            }
+    </dl>
+    <input type="submit" value="Share top 10 stock" />
+</form>

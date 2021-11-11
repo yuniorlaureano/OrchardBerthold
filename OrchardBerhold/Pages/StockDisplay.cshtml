@@ -1,0 +1,47 @@
+﻿@page
+@model OrchardBerhold.Pages.StockDisplayModel
+@{
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/af.min.js" integrity="sha512-xqLRtzampIqoDxDRyklcYk0fYDa7axgiSjTmyJFuzcK8vh1NDzqVPxcjIAvjb4t04u+rKMssANhgamUSnU71Uw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+<a href="/StockCreation">Crear</a>
+
+<div id="app">
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="s in shares">
+                <td>{{s.name}}</td>
+                <td>{{s.price}}</td>
+                <td>{{s.registrationDate}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            shares: []
+        },
+        methods: {
+            getShares: function () {
+                fetch('https://localhost:44377/api/stock/shared')
+                    .then(response => response.json())
+                    .then(data => this.shares = data);
+            }
+        },
+        mounted: function () {
+            this.getShares();
+        }
+    })
+</script>
